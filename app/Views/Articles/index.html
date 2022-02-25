@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Webpage</title>
+</head>
+<body>
+<ul id="navigation">
+    {% for article in articles %}
+<!--    <li> {{ result.title }} </li>-->
+    <li><a href="/articles/{{article.id}}">{{ article.title }}</a></li>
+    {% endfor %}
+</ul>
+</body>
+</html>
