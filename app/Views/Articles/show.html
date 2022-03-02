@@ -9,8 +9,55 @@
         {{ article.title }}
     </h1>
     <p>
-        {{ article.text}}
+        {{ article.text }}
     </p>
+    <p style="font-size: small">
+        Created by {{ profile.fullName }}
+    </p>
+    <p style="font-size: small">
+        {{ article.createdAt }}
+    </p>
+    {% if not userLike == currentUser %}
+    <br>
+    <form method="post" action="/articles/{{ article.id }}/like">
+        <button type="submit">like</button>
+    </form>
+    {% endif %}
+
+    <p>
+        Likes: {{ articleLikes }}
+    </p>
+    <br>
+
+    {% if author == currentUser %}
+    <form method="get" action="/articles/{{ article.id }}/edit">
+        <button type="submit" onclick="return ">edit post</button>
+    </form>
+    {% endif %}
+
+
+    <br><br>
+
+    <form method="get" action="/articles">
+        <button type="submit" onclick="return ">return</button>
+    </form>
+
 </div>
+<br>
+
+<form method="post" action="/articles/{{ article.id }}/comments" style="font-size: small">
+    <textarea id="comment" name="comment" cols="30" rows="5" ></textarea> <br>
+    <button type="submit" style="background-color: darkslategray; color: white; font-size:large" value = "{{ inputs['text'] }}"   >comment</button>
+</form>
+
+{% for comment in comments %}
+<p>
+    {{ comment.text }} <br>
+    User Id: {{ comment.user_id }}<br>
+    {{ comment.created_at }}
+
+</p>
+{% endfor %}
+
 </body>
 </html>

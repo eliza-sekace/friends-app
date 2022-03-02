@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FriendsApp</title>
+</head>
+<body>
+<form action="/articles/{{article.id}}/update" method="post">
+    <label for="title" style="font-size: x-large">Title</label>
+    <br>
+    <input type="text" id="title" maxlength="200" name="title" size=74px required value="{{ article.title }}">
+    <br><br>
+
+    <form action="/articles" method="post">
+    <span style="font-size: x-large"> Text </span>
+    <br>
+    <textarea name="text" cols="60" rows="10" required> {{ article.text }}</textarea>
+    <br>
+    <button style="background-color: darkslategray; color: white; font-size:large" >Submit</button>
+    </form>
+
+</form>
+
+
+
+</body>
+</html>
