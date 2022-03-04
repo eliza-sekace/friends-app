@@ -1,13 +1,67 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="style.css"/>
-    <title>FriendsApp</title>
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-Hello
-<div id="content">{% block content %}{% endblock %}</div>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+    <title>Coolest website of them all</title>
+</head>
+<body>
+
+<style>
+
+    .nav-link {
+        font-family: 'Lato', sans-serif;
+        color:white;
+        font-size: 20px;
+        margin: 0px;
+        background-color: steelblue;
+    }
+    .nav{
+        background-color: steelblue;
+    }
+</style>
+
+<ul class="nav justify-content-end  navbar-light">
+    <li class="nav-item">
+        <a class="nav-link active" href="/articles">Home page | All articles</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/articles/create">Create article</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/friends">My Friends</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/invites">Pending friend requests</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/users/all">All Users</a>
+    </li>
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        My Profile
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="#">See profile</a>
+        <div class="dropdown-divider"></div>
+            <form action="/logout" method="post" >
+                <button class="dropdown-item" >LOGOUT</button>
+            </form>
+
+    </div>
+
+</ul>
+
+
+<div id="content" class="container">{% block content %}
+
+    {% endblock %}</div>
 <div id="footer">
     &copy; FriendsApp
 </div>

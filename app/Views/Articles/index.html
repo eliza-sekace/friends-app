@@ -7,27 +7,25 @@
 </head>
 <body>
 
-<form action="/logout" method="post">
-    <button>Logout</button>
-</form>
-
 <ul id="navigation">
     {% for article in articles %}
 <!--    <li> {{ result.title }} </li>-->
-
-    <ul><a href="/articles/{{article.id}}">{{ article.title }}</a>
-        {% if article.userId == currentUser %}
-        <form method="post" action="/articles/{{article.id}}/delete">
-            <button type="submit" onclick="return confirm('are you sure?')">x</button>
-        </form>
-        {% endif %}
-    </ul><br>
-
+    <div class="list-group">
+        <a href="/articles/{{article.id}}" class="list-group-item list-group-item-action"
+           style="font-size: x-large; width: 95%">
+            {{ article.title }}
+            {% if article.userId == currentUser %}
+            <form method="post" action="/articles/{{article.id}}/delete" class="ml-2"
+            style="text-align: right; font-size: small">
+                <button type="submit" onclick="return confirm('are you sure?')" class="btn btn-light">x</button>
+            </form>
+            {% endif %}
+        </a>
     {% endfor %}
 
 <br><br>
 
-    <a href="/articles/create">create an article</a>
+
 
 </ul>
 </body>

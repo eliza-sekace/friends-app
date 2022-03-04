@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<html lang="en">
+
+{% for user in users %}
+<p>{{ user.name }}  {{ user.surname }} </p>
+{% endfor %}
+</html>
+
+{% endblock %}

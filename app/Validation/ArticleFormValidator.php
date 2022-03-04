@@ -24,10 +24,12 @@ class ArticleFormValidator
             foreach ($rules as $rule) {
                 //"required"
                 //"min:3"
-                [$name, $attribute] = explode(":", $rule);
-                $ruleName = 'validate' . ucfirst($name); //validateRequired validateMin
-                //check if method exists
-                $this->{$ruleName}($key, $attribute);
+                if(strpos($rule,":")>0){
+                    [$name, $attribute] = explode(":", $rule);
+                    $ruleName = 'validate' . ucfirst($name); //validateRequired validateMin
+                    //check if method exists
+                    $this->{$ruleName}($key, $attribute);
+                } else  $this->{'validate' . ucfirst($rule)}($key);
             }
         }
         if (count($this->errors) > 0) {

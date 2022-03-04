@@ -29,11 +29,10 @@ class CommentsController
             ->createQueryBuilder()
             ->select('id', 'user_id', 'title', 'text', 'created_at')
             ->from('articles')
-            ->where('id = ?')
             ->setParameter(0, $vars["id"])
+            ->where('id = ?')
             ->executeQuery()
             ->fetchAssociative();
-
 
         $connection = Connection::connect();
         $connection
@@ -42,41 +41,30 @@ class CommentsController
                 'article_id' => $result['id'],
                 'text' => $_POST['comment']
             ]);
-        var_dump($_GET);
-        $allComments = [];
-        $allComments[] = $_POST['comment'];
-        return new Redirect("/articles/{$vars['id']}");
 
+       $allComments = [];
+       $allComments[] = $_POST['comment'];
+        return new Redirect("/articles/{$vars["id"]}");
     }
 
-//    public function show($vars)
-//    {
-//        $connection = Connection::connect();
-//        $result = $connection
-//            ->createQueryBuilder()
-//            ->select('id', 'user_id', 'article_id', 'title', 'created_at')
-//            ->from('article_comments')
-//            ->where('id = ?')
-//            ->setParameter(0, $vars["id"])
-//            ->executeQuery()
-//            ->fetchAssociative();
-//
-//        $comments = new Comment(
-//            $result['id'],
-//            $result['user_id'],
-//            $result['article_id'],
-//            $result['text'],
-//            $result['created_at']);
-//
-//        return new View("Articles/show.html", [
-//            'userId' => $result['user_id'],
-//            'article_id' => $result['article_id'],
-//            'text' => $result['text'],
-//
-//        ]);
-//
-//    }
-//
-//
+    public function delete($vars)
+    {
+
+        $connection = Connection::connect();
+        $result = $connection
+            ->createQueryBuilder()
+            ->select('id', 'user_id', 'article_id')
+            ->from('article_comments')
+            ->where('id = ?')
+            ->setParameter(0, $vars['commentId'])
+            ->executeQuery()
+            ->fetchAssociative();
+
+        if ($_SESSION['user_id'] == $result['user_id']) {
+            $connection
+                ->delete('article_comments', ['id' => (int)$vars['commentId']]);
+        }
+        return new Redirect("/articles/{$result['article_id']}");
+    }
 }
 

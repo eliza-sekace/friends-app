@@ -1,63 +1,77 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My Webpage</title>
-</head>
+{% extends "layout.html" %}
+{% block content %}
+
 <body>
 <div>
-    <h1>
-        {{ article.title }}
-    </h1>
-    <p>
-        {{ article.text }}
-    </p>
-    <p style="font-size: small">
-        Created by {{ profile.fullName }}
-    </p>
-    <p style="font-size: small">
-        {{ article.createdAt }}
-    </p>
-    {% if not userLike == currentUser %}
     <br>
-    <form method="post" action="/articles/{{ article.id }}/like">
-        <button type="submit">like</button>
-    </form>
-    {% endif %}
-
-    <p>
-        Likes: {{ articleLikes }}
-    </p>
-    <br>
-
-    {% if author == currentUser %}
-    <form method="get" action="/articles/{{ article.id }}/edit">
-        <button type="submit" onclick="return ">edit post</button>
-    </form>
-    {% endif %}
-
-
+    <h1 class="text-center"> {{ article.title }} </h1> <br><br>
+    <div>{{ article.text }}</div>
     <br><br>
+    <div style="text-align: right">
+        Created by {{ profile.fullName }}<br>{{ article.createdAt }}
+    </div>
+    <br><br>
+    <div style="text-align: right">
+        {% if not userLike == currentUser %}
+        <form method="post" action="/articles/{{ article.id }}/like">
+            <button class="btn btn-outline-light" type="submit">👍</button>
+        </form>
+        {% endif %}
+        Likes: {{ articleLikes }} <br>
+        <label for="comment">Click here to add comment:</label>
+    <br>
+    {% if author == currentUser %}
+    <div class="col-md-12  text-right">
+        <form method="get" action="/articles/{{ article.id }}/edit">
+            <button class="btn btn-outline-info" type="submit"
+                    onclick="return ">edit post
+            </button>
+        </form>
 
-    <form method="get" action="/articles">
-        <button type="submit" onclick="return ">return</button>
-    </form>
-
+    {% endif %}
 </div>
+<!--    <form method="get" action="/articles">-->
+<!--        <button type="submit" onclick="return ">return</button>-->
+<!--    </form>-->
 <br>
-
 <form method="post" action="/articles/{{ article.id }}/comments" style="font-size: small">
-    <textarea id="comment" name="comment" cols="30" rows="5" ></textarea> <br>
-    <button type="submit" style="background-color: darkslategray; color: white; font-size:large" value = "{{ inputs['text'] }}"   >comment</button>
+    <div class="form-group" style="text-align: center"></div>
 </form>
 
+<textarea name="comment" class="form-control" style="width: 100%;
+        margin-left: auto; margin-right: auto;"
+          id="comment" rows="2"></textarea>
+</div><br>
+<div class="col-md-12  text-right">
+    <form method="get">
+        <button class="btn btn-outline-info" type="submit" value="{{ inputs['text'] }}"
+                onclick="return "> add comment
+        </button>
+    </form>
+</div>
+
+<h2 class="d-flex justify-content-center">
+    <div class="d-flex p-2">Comments:</div>
+</h2>
+
 {% for comment in comments %}
-<p>
-    {{ comment.text }} <br>
-    User Id: {{ comment.user_id }}<br>
-    {{ comment.created_at }}
+<ul class="list-group" class="col-md-12">
+    <li class="list-group-item">
+        {% if comment.user_id == currentUser %}
+        <div class="col-md-12  text-right">
+            <form method="post"
+                  action="/articles/{{comment.article_id}}/comments/{{comment.id}}/delete" class="ml-2">
+                <button type="submit" onclick="return confirm('are you sure?')" class="btn btn-light">x</button>
+            </form>
+        </div>
+        {{ comment.text }} <br>
+        {{ comment.name }} {{ comment.surname }}
+       <br> {{ comment.created_at }}
 
-</p>
+        {% endif %}
+    </li>
+</ul>
 {% endfor %}
-
 </body>
-</html>
+
+{% endblock %}

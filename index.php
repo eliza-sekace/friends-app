@@ -1,5 +1,5 @@
 <?php
-use App\Controllers\UsersController;
+
 use App\Redirect;
 use App\Views\View;
 
@@ -7,42 +7,42 @@ require_once 'vendor/autoload.php';
 session_start();
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-
     // Auth
     $r->addRoute('GET', '/login', ['App\Controllers\LoginController','signin']);
     $r->addRoute('POST', '/login', ['App\Controllers\LoginController','login']);
     $r->addRoute('POST', '/logout', ['App\Controllers\LoginController','logout']);
     $r->addRoute('GET', '/register', ['App\Controllers\RegisterController','signup']);
     $r->addRoute('POST', '/register', ['App\Controllers\RegisterController','register']);
-
-   // $r->addRoute('GET', '/user', ['App\Controllers\UsersController', 'one']);
-   // $r->addRoute('GET', '/users', ['App\Controllers\UsersController','all']);
-   // $r->addRoute('GET', '/users/{id}', ['App\Controllers\UsersController','show']);
-
-    //posts index page/each post
+    //posts index page/ all posts
     $r->addRoute('GET', '/articles', ['App\Controllers\ArticlesController','index']);
     //create a post
     $r->addRoute('GET', '/articles/create', ['App\Controllers\ArticlesController','create']);
-    $r->addRoute('GET', '/articles/{id}', ['App\Controllers\ArticlesController','show']);
-
     $r->addRoute('POST', '/articles', ['App\Controllers\ArticlesController','store']);
+    //posts - each post
+    $r->addRoute('GET', '/articles/{id}', ['App\Controllers\ArticlesController','show']);
     //delete
     $r->addRoute('POST', '/articles/{id}/delete', ['App\Controllers\ArticlesController','delete']);
+    //edit
     $r->addRoute('POST', '/articles/{id}/update', ['App\Controllers\ArticlesController','update']);
-    //edit. need to finish
     $r->addRoute('GET', '/articles/{id}/edit', ['App\Controllers\ArticlesController','edit']);
-    //signup
-    $r->addRoute('GET', '/users/signup', ['App\Controllers\UsersController','signup']);
-    $r->addRoute('POST', '/users', ['App\Controllers\UsersController','store']);
-    //login
-
-    $r->addRoute('POST', '/articles/{id}/like', ['App\Controllers\ArticlesController','like']);
     //like
-
-    $r->addRoute('POST', '/articles/{id}/comments', ['App\Controllers\CommentsController','comment']);
+    $r->addRoute('POST', '/articles/{id}/like', ['App\Controllers\ArticlesController','like']);
     //comment
-
-
+    $r->addRoute('POST', '/articles/{id}/comments', ['App\Controllers\CommentsController','comment']);
+    //delete comment
+    $r->addRoute('POST', '/articles/{articleId}/comments/{commentId}/delete', ['App\Controllers\CommentsController','delete']);
+    //see all users
+    $r->addRoute('GET', '/users/all', ['App\Controllers\UsersController','all']);
+    //invite
+    $r->addRoute('POST', '/users/{id}/invite', ['App\Controllers\InvitesController','store']);
+    //see invites
+    $r->addRoute('GET', '/invites', ['App\Controllers\InvitesController','index']);
+    //accept invitation and add to friends
+    $r->addRoute('POST', '/users/{id}/accept', ['App\Controllers\InvitesController','accept']);
+    //homepage
+    $r->addRoute('GET', '/homepage', ['App\Controllers\HomepageController','index']);
+    //see all friends
+    $r->addRoute('GET', '/friends', ['App\Controllers\FriendsController','index']);
 });
 
 // Fetch method and URI from somewhere

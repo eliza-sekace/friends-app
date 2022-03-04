@@ -11,7 +11,6 @@ class RegisterController
 
     public function __construct()
     {
-        session_start();
         if (isset($_SESSION['user_id'])) {
             header("location: /articles", true);
         }
@@ -39,7 +38,9 @@ class RegisterController
         }
 
         // If ok, start session, add user id to session, redirect to articles
-        session_start();
+        if (!session_start()){
+            session_start();
+        }
         $_SESSION['user_id'] = $user->getId();
 
         header("location: /articles", true);

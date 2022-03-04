@@ -5,16 +5,12 @@ namespace App\Controllers;
 use App\Exceptions\FormValidationException;
 use App\Exceptions\ResourceNotFoundException;
 use App\Models\Article;
-use App\Models\Profile;
+use App\Models\Comment;
 use App\Repositories\ProfilesRepository;
-use App\Repositories\UsersRepository;
 use App\Validation\ArticleFormValidator;
 use App\Validation\Errors;
 use App\Views\View;
 use App\Database\Connection;
-use Doctrine\DBAL\Exception\InvalidFieldNameException;
-use http\Env\Request;
-use mysql_xdevapi\Exception;
 use App\Redirect;
 
 
@@ -103,10 +99,12 @@ class ArticlesController
 
         $comments= $connection
             ->createQueryBuilder()
-            ->select('id', 'user_id', 'article_id', 'text', 'created_at')
-            ->from('article_comments')
-            ->where('article_id = ?')
+            ->select('c.id', 'c.user_id', 'c.article_id', 'c.text', 'c.created_at', 'p.name', 'p.surname')
+            ->from('article_comments', 'c')
+            ->leftJoin('c', 'user_profiles','p', 'c.user_id=p.user_id')
+            ->where('c.article_id = ?')
             ->setParameter(0, $vars["id"])
+            ->orderBy('c.id', 'desc')
             ->executeQuery()
             ->fetchAllAssociative();
 
@@ -119,7 +117,7 @@ class ArticlesController
                 'articleLikes' => (int)$articleLikes,
                 'userLike' => $articleUserId,
                 'author' => $result['user_id'],
-                'comments' => $comments
+                'comments' => $comments,
             ]);
         } catch (ResourceNotFoundException $e) {
             var_dump($e->getMessage());
@@ -157,9 +155,9 @@ class ArticlesController
 
         $connection
             ->insert('articles', [
-                'user_id' => $_SESSION['userid'],
+                'user_id' => $_SESSION['user_id'],
                 'title' => $_POST['title'],
-                'description' => $_POST['description'],
+                'text' => $_POST['text'],
             ]);
 
 

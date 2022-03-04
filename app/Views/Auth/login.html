@@ -1,4 +1,3 @@
-
 <head>
     <meta charset="utf-8">
     <title>Coolest website of them all</title>
@@ -79,22 +78,24 @@
             background-color: lightgray;
             border-radius: 35px;
         }
-
     </style>
 </head>
+<br>
 
-    <br>
-    <br>
-        <div>
-            <div class="form-header">
-                <h4>LOGIN</h4>
-                <p> Already have an account? Sign in here!</p>
-            </div>
-            <form action="/login" method="post">
-                <input type="email" name="email" placeholder="Email">
-                <input type="password" name="password" placeholder="Password">
-                <br>
-                <button type="submit" name="submit">LOGIN</button>
-            </form>
+<div class="background-square">
+    <div class="form-header">
+        <h4>LOGIN</h4>
+    </div>
+
+    <form action="/login" method="post">
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
+        <br>
+        <button type="submit" name="submit">LOGIN</button>
+        <br><br>
+        <div class="form-header">
+            Don't have an account? <a href="/register">Register here!</a>
         </div>
+    </form>
+
 </div>
